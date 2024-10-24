@@ -19,6 +19,7 @@ class GetText:
             self.get_text = tk.Tk() # Using 'self' here will allow for later access to this object
             self.get_text.title("Modifiles - Batch Directory Level Find and Replace")
             self.get_text.protocol("WM_DELETE_WINDOW", self.on_close)
+            self.get_text.withdraw()
 
             # self.get_text.withdraw()
 
@@ -150,7 +151,7 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
     # machine = platform.system() # No longer need to check for machine platform
     print(f"Directory function started: {directory}")
     input_text = GetText(old, new)
-    input_text.get_text.withdraw()
+    
     if directory == None:
         print(f"choose directory")
         directory = input_text.choose_directory()

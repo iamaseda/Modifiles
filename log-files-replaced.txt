@@ -1,5 +1,0 @@
-1. replaceText.py
-2. parser.py
-3. spinners.py
-4. tags.py
-5. compat.py

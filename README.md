@@ -1,1 +1,2 @@
-# Batch-Directory-Text-Replace
+# Modifiles - Directory Level Find & Replace
+Modifiles is a batch find and replace that works at the directory level. Need to edit a multitude of files in a directory because you mispelled a name, used a wrong address, or changed your mind about some wording? Modifiles will access all .txt, .docx, and .pdf files and modify the text you would like to change for you. Turn a tedious, monotonous task into a few presses of a button with Modifiles!

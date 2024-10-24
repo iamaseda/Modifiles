@@ -56,7 +56,7 @@ class GetText:
 
             # Configure textbox to respond to scrollbar
             self.new_text.config(yscrollcommand=newt_sroller.set)
-            print("Click button")
+            # print("Click button")
             enter = tk.Button(self.get_text, text="Submit", command=self.get_text_input).pack(pady=5)
 
         return
@@ -94,11 +94,11 @@ class GetText:
             self.new_text.bind("<KeyPress>", reset_text)
             if self.old_content != "":
                 self.get_text.destroy()
-            print("Got Text")
+            # print("Got Text")
             return
     
     def updates(self, edited):
-        print("Begin update")
+        # print("Begin update")
         
         self.uwindow = tk.Tk() # Using 'self' here will allow for later access to this object
         self.uwindow.title("Modifiles - Batch Directory Level Find and Replace")
@@ -118,7 +118,7 @@ class GetText:
         tk.Button(self.modifiles, text="Close", command=self.modifiles.destroy).pack(pady=5)
         self.modifiles.focus_force()
         self.uwindow.mainloop()
-        print("End update")
+        # print("End update")
         return
 
     def choose_directory(self):
@@ -141,7 +141,7 @@ class GetText:
                 tk.Label(choose, text="No directory was selected").pack(expand=True)
                 tk.Button(choose, text="Close", command=lambda: close_choose(choose)).pack(expand=True)
                 choose.mainloop()
-                print("No directory was selected")
+                # print("No directory was selected")
                 return ""
             else:
                 choose.destroy()
@@ -149,17 +149,17 @@ class GetText:
 edited_files = []
 def directory_filetext_replace(directory=None, old="", new="", root=True):
     # machine = platform.system() # No longer need to check for machine platform
-    print(f"Directory function started: {directory}")
+    # print(f"Directory function started: {directory}")
     input_text = GetText(old, new)
     
     if directory == None:
-        print(f"choose directory")
+        # print(f"choose directory")
         directory = input_text.choose_directory()
-        print("Directory done")
+        # print("Directory done")
         if directory == "": # TODO: fix this!!!
             return
         
-        print(f"done choosing, Now popup")
+        # print(f"done choosing, Now popup")
         input_text.get_text.deiconify()
 
     print(f"[{input_text.old_content} -> {input_text.new_content}]")
@@ -169,15 +169,19 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
             return
     global edited_files
 
-    print("Start for in directory")
-    print(f"{input_text.old_content} -> {input_text.new_content}")
+    # print("Start for in directory")
+    # print(f"{input_text.old_content} -> {input_text.new_content}")
     for file in os.listdir(directory):
-        print(f"File/folder {file}")
+        # print(f"File/folder {file}")
         filepath = os.path.join(directory, file)
         has_text = False
 
         if os.path.isfile(filepath):
-            valid_extensions = {'.txt', '.docx', '.pdf', '.py'}
+            '''TODO: implement ability to select what types of files the user wants to edit rather than hardcoding the three main ones
+            if xyz is checked:
+                valid_extensions.add(xyz)
+            '''
+            valid_extensions = {'.txt', '.docx', '.pdf'}
             _, extension = os.path.splitext(file)
 
             if extension not in valid_extensions:
@@ -192,18 +196,18 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
                             if input_text.old_content in line:
                                 edited_files.append(file)
                                 has_text = True
-                print("Checked for text")
+                # print("Checked for text")
             except FileNotFoundError:
                 print(f"Error: File not found: {filepath}")
 
         elif os.path.isdir(filepath):
-            print(filepath)
+            # print(filepath)
             directory_filetext_replace(filepath, input_text.old_content, input_text.new_content, False)
 
-    print("All files parsed")
+    # print("All files parsed")
     allfiles = ""
     try:
-        print(f"Start edited files log: {edited_files}")
+        # print(f"Start edited files log: {edited_files}")
         with open("log-files-replaced.txt", "w") as editedFiles:
             count = 1
             for elem in edited_files:
@@ -214,7 +218,7 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
     except Exception as e:
         print(f"An error has occcured: {e}")
     if root:
-        print("Update window here")
+        # print("Update window here")
         input_text.updates(edited=allfiles)
 
     return

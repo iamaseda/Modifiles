@@ -161,7 +161,55 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Backup files
-*.bak
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# PyInstaller
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.coverage
+.cache
+.pytest_cache/
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows specific
+Thumbs.db
+desktop.ini
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+*.bak.*
 *replaced.txt
+
+# VS Code settings
+.vscode/
+
+# Executables
+*.exe
+*.dll
+*.app
+
+# Docker
+docker-compose.override.yml

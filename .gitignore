@@ -164,4 +164,4 @@ cython_debug/
 # Backup files
 *.bak
 
-log-files-replaced.txt
+*replaced.txt

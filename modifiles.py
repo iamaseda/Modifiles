@@ -181,7 +181,8 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
             if xyz is checked:
                 valid_extensions.add(xyz)
             '''
-            valid_extensions = {'.txt', '.docx', '.pdf'}
+            all_text = {'.txt', '.docx', '.pdf', '.html', '.md', '.csv', '.xml'}
+            valid_extensions = {}
             _, extension = os.path.splitext(file)
 
             if extension not in valid_extensions:

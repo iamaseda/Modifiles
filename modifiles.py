@@ -97,7 +97,7 @@ class GetText:
             # print("Got Text")
             return
     
-    def updates(self, edited):
+    def show_updates(self, edited):
         # print("Begin update")
         
         self.uwindow = tk.Tk() # Using 'self' here will allow for later access to this object
@@ -220,7 +220,7 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
         print(f"An error has occcured: {e}")
     if root:
         # print("Update window here")
-        input_text.updates(edited=allfiles)
+        input_text.show_updates(edited=allfiles)
 
     return
 

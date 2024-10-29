@@ -6,7 +6,10 @@ import fileinput
 # import subprocess
 # import platform
 
-
+'''
+GetText is a class created to handle the communication of user input to the main function. Within this class, all GUI interface
+work is done.
+'''
 class GetText:
     def __init__(self, old="", new=""):
         self.old_content = old
@@ -14,14 +17,14 @@ class GetText:
         self.old_text = None
         self.new_text = None
         self.nw_close = False
+        self.types = []
+
         if old=="" or new=="":
             # Initialize new window and designate title
             self.get_text = tk.Tk() # Using 'self' here will allow for later access to this object
             self.get_text.title("Modifiles - Batch Directory Level Find and Replace")
             self.get_text.protocol("WM_DELETE_WINDOW", self.on_close)
             self.get_text.withdraw()
-
-            # self.get_text.withdraw()
 
             # Create frame to contain old info
             old_frame = tk.Frame(self.get_text)
@@ -60,43 +63,97 @@ class GetText:
             enter = tk.Button(self.get_text, text="Submit", command=self.get_text_input).pack(pady=5)
 
         return
+    
+    '''
+    Select the file extensions of desired files to be edited
+    '''
+    def select_type(self):
+        self.choose_types = tk.Toplevel(self.get_text)
+        self.choose_types.title("Modifiles - Type Selection")
+
+        self.type_prompt = tk.Label(self.choose_types, text=f"Please select the file types in which you would like to replace text:")
+        self.type_prompt.pack(pady=5)
+
+        global all_text
+
+        for type in all_text:
+            file_type_var = tk.IntVar()
+            self.types.append(file_type_var)
+            file_type = tk.Checkbutton(self.choose_types, text=type, variable=file_type_var).pack(pady=5)
+        
+        tk.Button(self.choose_types, text="Submit", command=self.get_type_input).pack(pady=5)
+        self.get_text.wait_window(self.choose_types)
+        return
+
+    '''
+    If the user closes the window using the 'X' instead of selecting a directory, ask for confirmation of program cancellation
+    '''
     def on_close(self):
         if messagebox.askokcancel("Quit", "Would you like to end the program?"):
             self.get_text.destroy()
             self.nw_close = True
+
+    '''
+    Get the user's checkbox inputs
+    '''
+    def get_type_input(self):
+        global all_text
+        global valid_extensions
+        for type in range(len(self.types)):
+            checkbox_id = self.types[type]
+            if checkbox_id.get() == 1:
+                extension = all_text[type]
+                valid_extensions.add(extension)
+        
+        self.choose_types.destroy()
+        print(valid_extensions)
+        
+    '''
+    Get the old and new text inputs of the user for the program
+    '''
     def get_text_input(self):
-            self.old_content = self.old_text.get("1.0", "end-1c")
-            self.new_content = self.new_text.get("1.0", "end-1c")
-            
-            def reset_text(event):  # This event parameter is required by tkinter to accept the KeyPress event
-                self.old_text.delete("1.0", tk.END)
-                self.new_text.delete("1.0", tk.END)
+        self.old_content = self.old_text.get("1.0", "end-1c")
+        self.new_content = self.new_text.get("1.0", "end-1c")
+        
+        '''
+        Reset the text boxes to delete the red message text in the textboxes when the user begins to type.
+        '''
+        def reset_text(event):  # This event parameter is required by tkinter to accept the KeyPress event
+            self.old_text.delete("1.0", tk.END)
+            self.new_text.delete("1.0", tk.END)
 
-                # Unbind the keypress event to prevent continuous triggering
-                self.old_text.unbind("<KeyPress>")
-                self.new_text.unbind("<KeyPress>")
+            # Unbind the keypress event to prevent continuous triggering
+            self.old_text.unbind("<KeyPress>")
+            self.new_text.unbind("<KeyPress>")
 
-                self.old_text.tag_remove("no_old_input", "1.0", tk.END)
-                self.new_text.tag_remove("no_new_input", "1.0", tk.END)
-                return
-            
-            def red_text():
-                if self.old_content == "":
-                    self.old_text.tag_configure("no_old_input", foreground="red")
-                    self.old_text.insert(tk.END, "Please input text to be replaced.", "no_old_input")
-                if self.new_content == "":
-                    self.new_text.tag_configure("no_new_input", foreground="red")
-                    self.new_text.insert(tk.END, "Please input replacement text.", "no_new_input")
-                return
-            
-            red_text()
-            self.old_text.bind("<KeyPress>", reset_text)
-            self.new_text.bind("<KeyPress>", reset_text)
-            if self.old_content != "":
-                self.get_text.destroy()
-            # print("Got Text")
+            self.old_text.tag_remove("no_old_input", "1.0", tk.END)
+            self.new_text.tag_remove("no_new_input", "1.0", tk.END)
             return
+        
+        '''
+        If no old text is input, display a message to the user to input before submission. Allows empty input for new text
+        TODO: deal with cases in which a user wants to delete the old text by having no input
+        '''
+        def red_text():
+            if self.old_content == "":
+                self.old_text.tag_configure("no_old_input", foreground="red")
+                self.old_text.insert(tk.END, "Please input text to be replaced.", "no_old_input")
+            if self.new_content == "":
+                self.new_text.tag_configure("no_new_input", foreground="red")
+                self.new_text.insert(tk.END, "Please input replacement text.", "no_new_input")
+            return
+        
+        red_text()
+        self.old_text.bind("<KeyPress>", reset_text)
+        self.new_text.bind("<KeyPress>", reset_text)
+        if self.old_content != "":
+            self.get_text.destroy()
+        # print("Got Text")
+        return
     
+    '''
+    Display to the user what files have been edited by the application.
+    '''
     def show_updates(self, edited):
         # print("Begin update")
         
@@ -120,7 +177,10 @@ class GetText:
         self.uwindow.mainloop()
         # print("End update")
         return
-
+    
+    '''
+    Prompt and enable the user to select the folder they want to conduct a find and replace on.
+    '''
     def choose_directory(self):
             choose = tk.Toplevel()
             choose.withdraw()
@@ -146,7 +206,15 @@ class GetText:
             else:
                 choose.destroy()
             return selected
+    
+''' Global Variables'''
 edited_files = []
+all_text = ['.csv', '.docx', '.html', '.md', '.pdf', '.py', '.txt', '.xml']
+valid_extensions = set()
+
+'''
+The main function of modifiles that conducts the directory-level find and replace.
+'''
 def directory_filetext_replace(directory=None, old="", new="", root=True):
     # machine = platform.system() # No longer need to check for machine platform
     # print(f"Directory function started: {directory}")
@@ -158,7 +226,7 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
         # print("Directory done")
         if directory == "": # TODO: fix this!!!
             return
-        
+        input_text.select_type()
         # print(f"done choosing, Now popup")
         input_text.get_text.deiconify()
 
@@ -177,12 +245,8 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
         has_text = False
 
         if os.path.isfile(filepath):
-            '''TODO: implement ability to select what types of files the user wants to edit rather than hardcoding the three main ones
-            if xyz is checked:
-                valid_extensions.add(xyz)
-            '''
-            all_text = {'.txt', '.docx', '.pdf', '.html', '.md', '.csv', '.xml'}
-            valid_extensions = {}
+            
+            global valid_extensions
             _, extension = os.path.splitext(file)
 
             if extension not in valid_extensions:
@@ -221,7 +285,7 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
     if root:
         # print("Update window here")
         input_text.show_updates(edited=allfiles)
-
+    valid_extensions.clear
     return
 
 if __name__ == "__main__":

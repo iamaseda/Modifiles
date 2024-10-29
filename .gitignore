@@ -211,5 +211,5 @@ venv/
 *.dll
 *.app
 
-# Docker
-docker-compose.override.yml
+# Github specific
+.github

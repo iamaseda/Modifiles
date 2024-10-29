@@ -4,7 +4,7 @@ APP = ['modifiles.py']  # main Python script
 DATA_FILES = []
 OPTIONS = {
     'argv_emulation': True,
-    'packages': ['pyinstaller'],  # Add any additional packages your app uses
+    'packages': [],  # Add any additional packages your app uses
     'plist': {
         'CFBundleName': 'Modifiles',
         'CFBundleShortVersionString': '0.1',

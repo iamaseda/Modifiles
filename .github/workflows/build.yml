@@ -29,7 +29,7 @@ jobs:
           pyinstaller --onefile modifiles.py
 
       - name: Upload Windows executable
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Windows
           path: dist/Modifiles.exe
@@ -57,7 +57,7 @@ jobs:
           python setup.py py2app  # Assuming you have a setup.py for py2app
 
       - name: Upload macOS app artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Modifiles-macOS
           path: dist/Modifiles.app 
@@ -85,7 +85,7 @@ jobs:
           pyinstaller --onefile modifiles.py
 
       - name: Upload Linux Modifiles artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Linux
           path: dist/Modifiles

@@ -6,33 +6,33 @@ on:
       - main
 
 jobs:
-  # build-windows:
-  #   runs-on: windows-latest
+  build-windows:
+    runs-on: windows-latest
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-  #     - name: Install dependencies
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-  #     - name: Create Windows executable
-  #       run: |
-  #         pip install pyinstaller
-  #         pyinstaller --onefile modifiles.py
+      - name: Create Windows executable
+        run: |
+          pip install pyinstaller
+          pyinstaller --onefile modifiles.py
 
-  #     - name: Upload Windows executable
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: Modifiles-Windows
-  #         path: dist/modifiles.exe
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: Modifiles-Windows
+          path: dist/modifiles.exe
 
   build-macos:
     runs-on: macos-latest
@@ -50,7 +50,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --use-pep517 -r requirements.txt
-          
 
       - name: Create macOS app
         run: |
@@ -63,30 +62,30 @@ jobs:
           name: Modifiles-macOS
           path: dist/modifiles.app 
 
-  # build-linux:
-  #   runs-on: ubuntu-latest
+  build-linux:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v5
-  #       with:
-  #         python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-  #     - name: Install dependencies
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-  #     - name: Create Linux executable
-  #       run: |
-  #         pip install pyinstaller
-  #         pyinstaller --onefile modifiles.py
+      - name: Create Linux executable
+        run: |
+          pip install pyinstaller
+          pyinstaller --onefile modifiles.py
 
-  #     - name: Upload Linux artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: Modifiles-Linux
-  #         path: dist/modifiles
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Modifiles-Linux
+          path: dist/modifiles

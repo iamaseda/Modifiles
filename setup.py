@@ -1,10 +1,10 @@
 from setuptools import setup
 
-APP = ['modifiles.py']  # main Python script
+APP = ['modifiles.py']  # Main Python script
 DATA_FILES = []
 OPTIONS = {
     'argv_emulation': True,
-    'packages': [],  # Add any additional packages your app uses
+    'packages': [],  # Any additional packages used
     'plist': {
         'CFBundleName': 'Modifiles',
         'CFBundleShortVersionString': '0.1',
@@ -12,6 +12,9 @@ OPTIONS = {
         'CFBundleIdentifier': 'com.gmail.bokyere887.Modifiles',
         'Entitlements': 'Entitlements.plist', 
     },
+    'bundle_files': 1,   # Create a single executable app
+    'includes': [],  # Specify any additional modules if necessary
+    'excludes': [],  # Exclude unnecessary modules
 }
 
 setup(

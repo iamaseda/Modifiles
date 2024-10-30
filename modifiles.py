@@ -4,8 +4,10 @@ from tkinter import filedialog
 from tkinter import messagebox
 import fileinput
 # import subprocess
-# import platform
+import platform
 
+
+os_type = platform.system()
 '''
 GetText is a class created to handle the communication of user input to the main function. Within this class, all GUI interface
 work is done.
@@ -25,7 +27,10 @@ class GetText:
             self.get_text.title("Modifiles - Batch Directory Level Find and Replace")
             self.get_text.protocol("WM_DELETE_WINDOW", self.on_close)
             self.get_text.withdraw()
-
+            
+            notice = tk.Label(self.get_text, text="If you would like to delete a word, follow the example below:" +
+                              "\n\nOld Text: super duper difficult\nNew Text: super difficult")
+            notice.pack(pady=5)
             # Create frame to contain old info
             old_frame = tk.Frame(self.get_text)
             old_frame.pack(fill=tk.X, expand=True)
@@ -33,7 +38,7 @@ class GetText:
             # Create input label and input textbox
             old_text_label = tk.Label(old_frame, text="Please input the exact text you would like to replace:")
             old_text_label.pack(pady=5)
-            self.old_text = tk.Text(old_frame, wrap=tk.WORD, borderwidth=2)
+            self.old_text = tk.Text(old_frame, height=10, wrap=tk.WORD, borderwidth=2)
             self.old_text.pack(side=tk.LEFT, fill=tk.X, expand=True)  # Fill horizontal space and grow/shrink if window resized
 
             # Create old_text textbox scroll bar
@@ -50,7 +55,7 @@ class GetText:
             # Create input label and input textbox
             new_text_label = tk.Label(new_frame, text="Please input your updated text:")
             new_text_label.pack(pady=5)
-            self.new_text = tk.Text(new_frame, wrap=tk.WORD, borderwidth=2)
+            self.new_text = tk.Text(new_frame, height=10, wrap=tk.WORD, borderwidth=2)
             self.new_text.pack(side=tk.LEFT, fill=tk.X, expand=True)  # Fill horizontal space and grow/shrink if window resized
 
             # Create new_text textbox scroll bar
@@ -135,20 +140,24 @@ class GetText:
         TODO: deal with cases in which a user wants to delete the old text by having no input
         '''
         def red_text():
-            if self.old_content == "":
+            if (self.old_content == "") or (self.old_content == "Please input text to be replaced by Modifiles."):
                 self.old_text.tag_configure("no_old_input", foreground="red")
-                self.old_text.insert(tk.END, "Please input text to be replaced.", "no_old_input")
-            if self.new_content == "":
+                self.old_text.delete("1.0", tk.END)
+                self.old_text.insert(tk.END, "Please input text to be replaced by Modifiles.", "no_old_input")
+            if (self.new_content == "") or (self.new_content == "Please input replacement text for Modifiles."):
                 self.new_text.tag_configure("no_new_input", foreground="red")
-                self.new_text.insert(tk.END, "Please input replacement text.", "no_new_input")
+                self.new_text.delete("1.0", tk.END)
+                self.new_text.insert(tk.END, "Please input replacement text for Modifiles.", "no_new_input")
             return
         
-        red_text()
         self.old_text.bind("<KeyPress>", reset_text)
         self.new_text.bind("<KeyPress>", reset_text)
-        if self.old_content != "":
+        red_text()
+        
+        if (self.old_content != "") and (self.old_content != "Please input text to be replaced by Modifiles."):
+            print("Got Text")
             self.get_text.destroy()
-        # print("Got Text")
+        
         return
     
     '''
@@ -156,26 +165,74 @@ class GetText:
     '''
     def show_updates(self, edited):
         # print("Begin update")
+        def label_wraplength():
+            message_width = message.winfo_width()
+            changes.config(wraplength=message_width)
         
+        def _on_mouse_wheel(event):
+            os_type = platform.system()
+        
+            # Bind mouse wheel events for scrolling
+            if (os_type == "Windows"):
+                canvas.yview_scroll(int(-1 * (event.delta/120)), "units")
+            elif (os_type == "Darwin"):
+                canvas.yview_scroll(int(-1 * (event.delta)), "units")
+            elif os_type == "Linux":
+                if event.num == 5:
+                    canvas.yview_scroll(1, "units")
+                elif event.num == 4:
+                    canvas.yview_scroll(-1, "units")
+
         self.uwindow = tk.Tk() # Using 'self' here will allow for later access to this object
         self.uwindow.title("Modifiles - Batch Directory Level Find and Replace")
         self.uwindow.minsize(400, 150)
         self.modifiles = tk.Toplevel()
         self.modifiles.title("Modifiles - Batch Directory Level Find and Replace")
         self.modifiles.minsize(200, 150)
+        
+        canvas = tk.Canvas(self.modifiles)
+        cscrollbar = tk.Scrollbar(self.modifiles, orient="vertical", command=canvas.yview)
+        canvas.configure(yscrollcommand=cscrollbar.set)
+        cframe = tk.Frame(canvas)
+
+        cframe.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")),
+                         add="+")
+        cframe.bind("<Configure>", lambda e: canvas.config(width=e.width), add="+")
+
+        canvas.create_window((0, 0), window=cframe, anchor="nw", tags="cframe")
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        cscrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        
         # Create input label and input textbox
-        message = tk.Label(self.modifiles, text=f"All files modified. Thank you for your patronage!\n\n The specified text below has been replaced in all files of your chosen directory:\n\n")
+        message = tk.Label(cframe, text=f"All files modified. Thank you for your patronage!\n\n The specified text below has been replaced in all files of your chosen directory:\n")
         message.pack(pady=5)
-        changes = tk.Label(self.modifiles, text=f"Previous Text:\n{self.old_content}\n\nNew Text:\n{self.new_content}", justify="left", anchor="w")
-        changes.pack(pady=5)
+        changes = tk.Label(cframe, text=f"Previous Text:\n{self.old_content}\n\nNew Text:\n{self.new_content}",
+                            justify="left", anchor="w", wraplength=message.winfo_width())
+        self.modifiles.after(100, label_wraplength)
+        changes.pack(pady=5, padx=10)
+        self.modifiles.update_idletasks()
+        canvas.config(width=cframe.winfo_width())
+
+        os_type = platform.system()
+        
+        # Bind mouse wheel events for scrolling
+        if (os_type == "Windows") or (os_type == "Darwin"):
+            canvas.bind_all("<MouseWheel>", _on_mouse_wheel)  # For Windows and macOS
+        elif os_type == "Linux":
+            canvas.bind_all("<Button-4>", _on_mouse_wheel)
+            canvas.bind_all("<Button-5>", _on_mouse_wheel)
+        else:
+            pass
+
         allfiles = tk.Label(self.uwindow, text=f"Below are all the files that were modified:\n\n{edited}", justify="left")
         allfiles.pack(pady=5)
 
         tk.Button(self.uwindow, text="Close", command=self.uwindow.destroy).pack(pady=5)
-        tk.Button(self.modifiles, text="Close", command=self.modifiles.destroy).pack(pady=5)
+        tk.Button(cframe, text="Close", command=self.modifiles.destroy).pack(pady=5)
         self.modifiles.focus_force()
         self.uwindow.mainloop()
-        # print("End update")
+        print("End update")
         return
     
     '''
@@ -283,7 +340,7 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
     except Exception as e:
         print(f"An error has occcured: {e}")
     if root:
-        # print("Update window here")
+        print("Update window here")
         input_text.show_updates(edited=allfiles)
     valid_extensions.clear
     return

@@ -47,7 +47,7 @@ jobs:
           git config --local user.name "Asomani, Aseda"
           git add dist\Modifiles.exe
           git commit -m "Add Windows executable" || echo "No changes to commit"
-          git push origin main
+          git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main
 
       - name: Upload Windows executable artifact
         uses: actions/upload-artifact@v4
@@ -94,7 +94,7 @@ jobs:
           git config --local user.name "Asomani, Aseda"
           git add dist/Modifiles.app
           git commit -m "Add macOS app" || echo "No changes to commit"
-          git push origin main
+          git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main
 
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
@@ -141,7 +141,7 @@ jobs:
           git config --local user.name "Asomani, Aseda"
           git add dist/Modifiles
           git commit -m "Add Linux executable" || echo "No changes to commit"
-          git push origin main
+          git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4

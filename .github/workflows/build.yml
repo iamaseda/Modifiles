@@ -39,7 +39,7 @@ jobs:
 
       - name: Rename executable to overwrite
         run: |
-          rename dist\modifiles.exe dist\Modifiles.exe  # Overwrite if it exists
+          Rename-Item dist\modifiles.exe dist\Modifiles.exe -Force  # Overwrite if it exists
 
       - name: Commit and push Windows executable
         run: |

@@ -41,12 +41,13 @@ jobs:
       - name: Create Windows executable
         run: |
           pip install pyinstaller
-          pyinstaller --onefile modifiles.py
+          pyinstaller --onefile --name Modifiles modifiles.py
           dir dist
+          dir
 
       - name: Rename executable to overwrite
         run: |
-          Move-Item dist\modifiles.exe dist\Modifiles.exe -Force  # Overwrite if it exists
+          Move-Item dist\Modifiles.exe dist\Modifiles.exe -Force  # Overwrite if it exists
 
       - name: Add Windows executable
         run: |
@@ -101,6 +102,7 @@ jobs:
           rm -rf dist/Modifiles.app
           python setup.py py2app
           ls dist
+          ls
 
       - name: Add macOS app
         run: |
@@ -188,6 +190,7 @@ jobs:
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
           git fetch origin
+          git status
           git add dist/*
           git commit -m "Add Windows, Mac, and Linux executables"
           git push origin main

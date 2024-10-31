@@ -41,7 +41,7 @@ jobs:
         run: |
           rename dist\modifiles.exe dist\Modifiles.exe  # Overwrite if it exists
 
-      - name: Commit and push changes
+      - name: Commit and push Windows executable
         run: |
           git config --local user.email "bokyere@gmail.com"
           git config --local user.name "Asomani, Aseda"
@@ -49,7 +49,7 @@ jobs:
           git commit -m "Add Windows executable" || echo "No changes to commit"
           git push origin main
 
-      - name: Upload Windows executable
+      - name: Upload Windows executable artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Windows
@@ -88,6 +88,14 @@ jobs:
         run: |
           mv -f dist/modifiles.app dist/Modifiles.app  # Overwrite if it exists
 
+      - name: Commit and push macOS app
+        run: |
+          git config --local user.email "bokyere@gmail.com"
+          git config --local user.name "Asomani, Aseda"
+          git add dist/Modifiles.app
+          git commit -m "Add macOS app" || echo "No changes to commit"
+          git push origin main
+
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
         with:
@@ -125,10 +133,18 @@ jobs:
 
       - name: Rename Linux executable to overwrite
         run: |
-          mv -f dist/modifilesLinux dist/ModifilesLinux 
+          mv -f dist/modifiles dist/Modifiles  # Overwrite if it exists
+
+      - name: Commit and push Linux executable
+        run: |
+          git config --local user.email "bokyere@gmail.com"
+          git config --local user.name "Asomani, Aseda"
+          git add dist/Modifiles
+          git commit -m "Add Linux executable" || echo "No changes to commit"
+          git push origin main
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Linux
-          path: dist/ModifilesLinux
+          path: dist/Modifiles

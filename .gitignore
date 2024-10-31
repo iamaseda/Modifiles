@@ -211,3 +211,9 @@ venv/
 *.dll
 *.app
 
+!dist/
+
+# Allow specific executables in the dist directory
+!dist/*.exe
+!dist/*.dll
+!dist/*.app

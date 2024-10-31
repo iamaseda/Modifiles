@@ -133,7 +133,7 @@ jobs:
 
       - name: Rename Linux executable to overwrite
         run: |
-          mv -f dist/modifiles dist/Modifiles  # Overwrite if it exists
+          mv -f dist/Modifiles dist/ModifilesLinux  # Overwrite if it exists
 
       - name: Add Linux executable
         run: |

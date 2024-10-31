@@ -86,7 +86,7 @@ jobs:
 
       - name: Rename macOS app to overwrite
         run: |
-          mv -f dist/modifiles.app dist/Modifiles.app  # Overwrite if it exists
+          mv -f dist/Modifiles.app dist/Modifiles.app  # Overwrite if it exists
 
       - name: Add macOS app
         run: |
@@ -139,13 +139,13 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist/Modifiles
+          git add dist/ModifilesLinux
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Linux
-          path: dist/Modifiles
+          path: dist/ModifilesLinux
 
   commit-all:
     runs-on: ubuntu-latest

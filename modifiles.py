@@ -5,6 +5,8 @@ from tkinter import messagebox
 import fileinput
 # import subprocess
 import platform
+from docx import Document
+import fitz
 
 
 os_type = platform.system()
@@ -310,14 +312,58 @@ def directory_filetext_replace(directory=None, old="", new="", root=True):
                 continue
 
             try:
-                
-                with fileinput.FileInput(filepath, inplace=True, backup='.bak') as filetext:
-                    for line in filetext:
-                        print(line.replace(input_text.old_content, input_text.new_content), end="")
-                        if not has_text:
-                            if input_text.old_content in line:
-                                edited_files.append(file)
-                                has_text = True
+                if extension == ".pdf":
+                    # Open the PDF file
+                    doc = fitz.open(filepath)
+
+                    # Loop through each page in the PDF
+                    for page in doc:
+                        text_instances = page.search_for(input_text.old_content)  # Search for the old content
+
+                        # Replace each found instance with the new text
+                        for instance in text_instances:
+                            # Get the bounding box for the found text
+                            rect = instance
+                            # Replace the text by adding the new text at the same position
+                            page.insert_text(rect[:2], input_text.new_content, fontsize=12, color=(0, 0, 0))
+
+                            # Optionally, check if the text has been modified
+                            if not has_text:
+                                has_text = True  # Set flag to True if replacement occurs
+
+                    # Save the modified PDF to a new file (you can choose to overwrite or create a new one)
+                    modified_pdf_path = f"modified_{filepath}"
+                    doc.save(modified_pdf_path)
+                    doc.close()
+
+                    # If text was found and replaced, append to edited_files
+                    if has_text:
+                        edited_files.append(filepath)
+                elif extension == ".docx":
+                    # Open the .docx file
+                    doc = Document(filepath)
+
+                    # Loop through all paragraphs and replace text
+                    for para in doc.paragraphs:
+                        if input_text.old_content in para.text:
+                            para.text = para.text.replace(input_text.old_content, input_text.new_content)
+                            has_text = True  # Set flag to True if replacement occurs
+
+                    # Save the modified docx to a new file (you can choose to overwrite or create a new one)
+                    modified_docx_path = f"modified_{filepath}"
+                    doc.save(modified_docx_path)
+
+                    # If text was found and replaced, append to edited_files
+                    if has_text:
+                        edited_files.append(filepath)
+                else:
+                    with fileinput.FileInput(filepath, inplace=True, backup='.bak') as filetext:
+                        for line in filetext:
+                            print(line.replace(input_text.old_content, input_text.new_content), end="")
+                            if not has_text:
+                                if input_text.old_content in line:
+                                    edited_files.append(file)
+                                    has_text = True
                 # print("Checked for text")
             except FileNotFoundError:
                 print(f"Error: File not found: {filepath}")

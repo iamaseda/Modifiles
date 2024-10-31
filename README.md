@@ -8,3 +8,4 @@ You can download the compiled binaries for Modifiles from the links below. Pleas
 - [Windows Executable](dist/modifiles.exe)
 - [macOS App](dist/Modifiles.app)
 - [Linux Executable](dist/modifilesLinux)
+

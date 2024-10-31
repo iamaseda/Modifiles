@@ -82,11 +82,8 @@ jobs:
       - name: Create macOS app
         run: |
           pip install --use-pep517 py2app
+          rm -rf dist/Modifiles.app
           python setup.py py2app
-
-      - name: Rename macOS app to overwrite
-        run: |
-          mv -f dist/Modifiles.app dist/Modifiles.app  # Overwrite if it exists
 
       - name: Add macOS app
         run: |

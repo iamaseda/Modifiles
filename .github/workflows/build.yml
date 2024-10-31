@@ -37,15 +37,15 @@ jobs:
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
 
-      - name: Move executable to dist folder
+      - name: Rename executable to overwrite
         run: |
-          move /Y dist/modifiles.exe dist\modifiles.exe  # Overwrite if it exists
+          rename dist\modifiles.exe dist\Modifiles.exe  # Overwrite if it exists
 
       - name: Commit and push changes
         run: |
           git config --local user.email "bokyere@gmail.com"
           git config --local user.name "Asomani, Aseda"
-          git add dist/modifiles.exe
+          git add dist\Modifiles.exe
           git commit -m "Add Windows executable" || echo "No changes to commit"
           git push origin main
 
@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Windows
-          path: dist/modifiles.exe
+          path: dist\Modifiles.exe
 
   build-macos:
     runs-on: macos-latest
@@ -84,11 +84,7 @@ jobs:
           pip install --use-pep517 py2app
           python setup.py py2app
 
-      - name: Clean up previous build
-        run: |
-          rm -rf dist/modifiles.app
-
-      - name: Move macOS app to dist folder
+      - name: Rename macOS app to overwrite
         run: |
           mv -f dist/modifiles.app dist/Modifiles.app  # Overwrite if it exists
 
@@ -127,13 +123,9 @@ jobs:
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
 
-      - name: Clean up previous build
+      - name: Rename Linux executable to overwrite
         run: |
-          rm -f dist/modifiles  # Remove if it exists
-
-      - name: Move Linux executable to dist folder
-        run: |
-          mv -f dist/modifiles dist/Modifiles  # Overwrite if it exists
+          mv -f dist/modifilesLinux dist/ModifilesLinux 
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4

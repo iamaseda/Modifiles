@@ -5,6 +5,6 @@ Modifiles is a batch find and replace that works at the directory level. Need to
 
 You can download the compiled binaries for Modifiles from the links below. Please note that because this software does not have a code-signing certificate(they are expensive subscriptions), an untrusted developer window will appear when you attempt to run it. Simply click 'More Info' or whatever prompt your device shows and continue:
 
-- [Windows Executable](dist/Modifiles.exe)
+- [Windows Executable](dist/modifiles.exe)
 - [macOS App](dist/Modifiles.app)
-- [Linux Executable](dist/Modifiles)
+- [Linux Executable](dist/modifilesLinux)

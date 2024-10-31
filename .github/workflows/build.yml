@@ -39,8 +39,7 @@ jobs:
 
       - name: Move executable to dist folder
         run: |
-          mkdir -p dist
-          move dist/modifiles.exe dist/
+          move /Y dist/modifiles.exe dist\modifiles.exe  # Overwrite if it exists
 
       - name: Commit and push changes
         run: |
@@ -87,8 +86,7 @@ jobs:
 
       - name: Move macOS app to dist folder
         run: |
-          mkdir -p dist
-          mv dist/modifiles.app dist/
+          mv -f dist/modifiles.app dist/modifiles.app  # Overwrite if it exists
 
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
@@ -127,8 +125,7 @@ jobs:
 
       - name: Move Linux executable to dist folder
         run: |
-          mkdir -p dist
-          mv dist/modifiles dist/
+          mv -f dist/modifiles dist/modifiles  # Overwrite if it exists
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4

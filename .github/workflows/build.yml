@@ -84,15 +84,19 @@ jobs:
           pip install --use-pep517 py2app
           python setup.py py2app
 
+      - name: Clean up previous build
+        run: |
+          rm -rf dist/modifiles.app
+
       - name: Move macOS app to dist folder
         run: |
-          mv -f dist/modifiles.app dist/modifiles.app  # Overwrite if it exists
+          mv -f dist/modifiles.app dist/Modifiles.app  # Overwrite if it exists
 
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-macOS
-          path: dist/modifiles.app 
+          path: dist/Modifiles.app 
 
   build-linux:
     runs-on: ubuntu-latest
@@ -123,12 +127,16 @@ jobs:
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
 
+      - name: Clean up previous build
+        run: |
+          rm -f dist/modifiles  # Remove if it exists
+
       - name: Move Linux executable to dist folder
         run: |
-          mv -f dist/modifiles dist/modifiles  # Overwrite if it exists
+          mv -f dist/modifiles dist/Modifiles  # Overwrite if it exists
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Linux
-          path: dist/modifiles
+          path: dist/ModifilesLinux

@@ -32,6 +32,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Print Current Working Directory
+        run: pwd
+
       - name: Create Windows executable
         run: |
           pip install pyinstaller
@@ -80,6 +83,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install --use-pep517 -r requirements.txt
 
+      - name: Print Current Working Directory
+        run: pwd
+
       - name: Create macOS app
         run: |
           pip install --use-pep517 py2app
@@ -125,6 +131,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Print Current Working Directory
+        run: pwd
+        
       - name: Create Linux executable
         run: |
           pip install pyinstaller

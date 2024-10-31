@@ -36,6 +36,7 @@ jobs:
         run: |
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
+          dir dist
 
       - name: Rename executable to overwrite
         run: |
@@ -84,6 +85,7 @@ jobs:
           pip install --use-pep517 py2app
           rm -rf dist/Modifiles.app
           python setup.py py2app
+          ls dist
 
       - name: Add macOS app
         run: |
@@ -127,6 +129,7 @@ jobs:
         run: |
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
+          ls dist
 
       - name: Rename Linux executable to overwrite
         run: |
@@ -158,5 +161,7 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git commit -m "Add Windows, Mac, and Linux executables" || echo "No changes to commit"
-          git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main
+          git fetch origin
+          git add dist/*
+          git commit -m "Add Windows, Mac, and Linux executables"
+          git push origin main

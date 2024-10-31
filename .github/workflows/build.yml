@@ -43,8 +43,8 @@ jobs:
 
       - name: Commit and push Windows executable
         run: |
-          git config --local user.email "bokyere@gmail.com"
-          git config --local user.name "Asomani, Aseda"
+          git config --global user.email "bokyere@gmail.com"
+          git config --global user.name "Asomani, Aseda"
           git add dist\Modifiles.exe
           git commit -m "Add Windows executable" || echo "No changes to commit"
           git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main
@@ -90,8 +90,8 @@ jobs:
 
       - name: Commit and push macOS app
         run: |
-          git config --local user.email "bokyere@gmail.com"
-          git config --local user.name "Asomani, Aseda"
+          git config --global user.email "bokyere@gmail.com"
+          git config --global user.name "Asomani, Aseda"
           git add -f dist/Modifiles.app
           git commit -m "Add macOS app" || echo "No changes to commit"
           git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main
@@ -137,8 +137,8 @@ jobs:
 
       - name: Commit and push Linux executable
         run: |
-          git config --local user.email "bokyere@gmail.com"
-          git config --local user.name "Asomani, Aseda"
+          git config --global user.email "bokyere@gmail.com"
+          git config --global user.name "Asomani, Aseda"
           git add dist/Modifiles
           git commit -m "Add Linux executable" || echo "No changes to commit"
           git push https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/iamaseda/Modifiles.git HEAD:main

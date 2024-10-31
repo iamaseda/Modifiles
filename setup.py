@@ -12,9 +12,7 @@ OPTIONS = {
         'CFBundleIdentifier': 'com.gmail.bokyere887.Modifiles',
         'Entitlements': 'Entitlements.plist', 
     },
-    'bundle_files': 1,   # Create a single executable app
-    'includes': [],  # Specify any additional modules if necessary
-    'excludes': [],  # Exclude unnecessary modules
+    'standalone': True,
 }
 
 setup(

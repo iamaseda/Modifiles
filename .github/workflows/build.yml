@@ -87,7 +87,10 @@ jobs:
           pip install --use-pep517 -r requirements.txt
 
       - name: Create dist directory if it doesn't exist
-        run: mkdir -p dist
+        run: |
+          mkdir -p dist
+          ls
+          ls dist
 
       - name: Print Current Working Directory
         run: pwd
@@ -139,14 +142,19 @@ jobs:
 
       - name: Create dist directory if it doesn't exist
         run: mkdir -p dist
-        
+
+      - name: List directory
+        run: |
+          ls
+          ls dist
+
       - name: Print Current Working Directory
         run: pwd
 
       - name: Create Linux executable
         run: |
           pip install pyinstaller
-          pyinstaller --onefile modifiles.py
+          pyinstaller --onefile --name Modifiles modifiles.py
           ls dist
 
       - name: Rename Linux executable to overwrite

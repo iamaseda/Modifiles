@@ -15,6 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up environment variable
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
+        run: |
+          echo "Using the PAT from the environment variable"
+          echo "$GITHUB_PAT"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -30,6 +37,19 @@ jobs:
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
 
+      - name: Move executable to dist folder
+        run: |
+          mkdir -p dist
+          move dist/modifiles.exe dist/
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "bokyere@gmail.com"
+          git config --local user.name "Asomani, Aseda"
+          git add dist/modifiles.exe
+          git commit -m "Add Windows executable" || echo "No changes to commit"
+          git push origin main
+
       - name: Upload Windows executable
         uses: actions/upload-artifact@v4
         with:
@@ -42,6 +62,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up environment variable
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
+        run: |
+          echo "Using the PAT from the environment variable"
+          echo "$GITHUB_PAT"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -58,6 +85,11 @@ jobs:
           pip install --use-pep517 py2app
           python setup.py py2app
 
+      - name: Move macOS app to dist folder
+        run: |
+          mkdir -p dist
+          mv dist/modifiles.app dist/
+
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
         with:
@@ -70,6 +102,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up environment variable
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
+        run: |
+          echo "Using the PAT from the environment variable"
+          echo "$GITHUB_PAT"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -85,6 +124,11 @@ jobs:
         run: |
           pip install pyinstaller
           pyinstaller --onefile modifiles.py
+
+      - name: Move Linux executable to dist folder
+        run: |
+          mkdir -p dist
+          mv dist/modifiles dist/
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4

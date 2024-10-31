@@ -12,7 +12,6 @@ OPTIONS = {
         'CFBundleIdentifier': 'com.gmail.bokyere887.Modifiles',
         'Entitlements': 'Entitlements.plist', 
     },
-    'standalone': True,
 }
 
 setup(

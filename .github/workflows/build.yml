@@ -56,6 +56,9 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
+          git status
+          git add -f dist
+          git commit -m "Commit before rebase"
           git pull --rebase
           git checkout --ours dist/windows/Modifiles.exe
           git add -f dist\windows\Modifiles.exe
@@ -122,6 +125,9 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
+          git status
+          git add -f dist
+          git commit -m "Commit before rebase"
           git pull --rebase
           git checkout --ours dist/macos/Modifiles.app
           git add -f dist/macos/Modifiles.app
@@ -187,6 +193,9 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
+          git status
+          git add -f dist
+          git commit -m "Commit before rebase"
           git pull --rebase
           git checkout --ours dist/linux/ModifilesLinux
           git add -f dist/linux/ModifilesLinux

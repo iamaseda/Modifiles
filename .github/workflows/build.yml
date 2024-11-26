@@ -41,11 +41,11 @@ jobs:
 
       - name: Create Windows executable
         run: |
-          if (Test-Path "dist/windows/Modifiles.exe") {
-            Remove-Item "dist/windows" -Recurse -Force
+          if (Test-Path "dist\windows\Modifiles.exe") {
+            Remove-Item "dist\windows\*" -Recurse -Force
           }
           pip install pyinstaller
-          pyinstaller --onefile --name Modifiles --distpath dist/windows modifiles.py
+          pyinstaller --onefile --name Modifiles --distpath dist\windows modifiles.py
           dir dist
           dir
 
@@ -115,7 +115,7 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add -f macos/Modifiles.app
+          git add -f dist/macos/Modifiles.app
           git commit -m "Committing macOS executable"
 
       - name: Upload macOS app artifact

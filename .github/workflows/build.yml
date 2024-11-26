@@ -48,12 +48,14 @@ jobs:
       - name: Rename executable to overwrite
         run: |
           Move-Item dist\Modifiles.exe dist\Modifiles.exe -Force  # Overwrite if it exists
+          dir dist
 
       - name: Add Windows executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
           git add dist\Modifiles.exe
+          git commit -m "Committing windows executable"
 
       - name: Upload Windows executable artifact
         uses: actions/upload-artifact@v4
@@ -101,14 +103,15 @@ jobs:
           pip install --use-pep517 py2app
           rm -rf dist/Modifiles.app
           python setup.py py2app
-          ls dist
           ls
+          ls dist
 
       - name: Add macOS app
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
           git add -f dist/Modifiles.app
+          git commit -m "Committing macOS executable"
 
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
@@ -156,18 +159,19 @@ jobs:
       - name: Create Linux executable
         run: |
           pip install pyinstaller
-          pyinstaller --onefile --name Modifiles modifiles.py
+          pyinstaller --onefile --name ModifilesLinux modifiles.py
           ls dist
 
       - name: Rename Linux executable to overwrite
         run: |
-          mv -f dist/Modifiles dist/ModifilesLinux  # Overwrite if it exists
+          mv -f dist/ModifilesLinux dist/ModifilesLinux  # Overwrite if it exists
 
       - name: Add Linux executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
           git add dist/ModifilesLinux
+          git commit -m "Committing Linux executable"
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
@@ -191,6 +195,6 @@ jobs:
           git config --global user.name "Asomani, Aseda"
           git fetch origin
           git status
-          git add dist/*
+          git add dist/
           git commit -m "Add Windows, Mac, and Linux executables"
           git push origin main

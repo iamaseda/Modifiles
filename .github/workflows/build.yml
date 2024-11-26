@@ -36,25 +36,24 @@ jobs:
         run: mkdir -p dist\windows
 
       - name: Print Current Working Directory
-        run: pwd
+        run: |
+          pwd
 
       - name: Create Windows executable
         run: |
+          if (Test-Path "dist/windows/Modifiles.exe") {
+            Remove-Item "dist/windows" -Recurse -Force
+          }
           pip install pyinstaller
-          pyinstaller --onefile --name Modifiles modifiles.py
+          pyinstaller --onefile --name Modifiles --distpath dist/windows modifiles.py
           dir dist
           dir
-
-      - name: Rename executable to overwrite
-        run: |
-          Move-Item dist\windows\Modifiles.exe dist\windows\Modifiles.exe -Force  # Overwrite if it exists
-          dir dist
 
       - name: Add Windows executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist\windows\Modifiles.exe
+          git add dist\windows
           git commit -m "Committing windows executable"
 
       - name: Upload Windows executable artifact
@@ -168,7 +167,7 @@ jobs:
       - name: Create Linux executable
         run: |
           pip install pyinstaller
-          pyinstaller --onefile --name ModifilesLinux modifiles.py
+          pyinstaller --onefile --name ModifilesLinux --distpath dist/linux modifiles.py
           ls dist
           echo "Print dist/linux:"
           ls dist/linux || echo "Dist/linux does not exist"

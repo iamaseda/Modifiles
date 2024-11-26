@@ -49,11 +49,11 @@ jobs:
           dir dist
           dir
 
-      - name: Add Windows executable
+      - name: Git Add Windows executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist\windows
+          git add dist\windows\Modifiles.exe
           git commit -m "Committing windows executable"
 
       - name: Upload Windows executable artifact
@@ -111,7 +111,7 @@ jobs:
           echo "Contents of macos (if they exist):"
           ls dist/macos || echo "Dist/macos does not exist"
 
-      - name: Add macOS app
+      - name: Git Add macOS app
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
@@ -172,7 +172,7 @@ jobs:
           echo "Print dist/linux:"
           ls dist/linux || echo "Dist/linux does not exist"
 
-      - name: Add Linux executable
+      - name: Git Add Linux executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"

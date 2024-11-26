@@ -108,7 +108,7 @@ jobs:
           ls dist
       - name: Print Current Working Directory, Dist, and Macos Directories
         run: |
-          "Current working directory: $(pwd)"
+          echo "Current working directory: $(pwd)"
           echo "Contents of macos (if they exist):"
           ls dist/macos || echo "Dist/macos does not exist"
 

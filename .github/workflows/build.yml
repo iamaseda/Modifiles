@@ -33,7 +33,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Create dist directory if it doesn't exist
-        run: mkdir -p dist\windows
+        run: |
+          if (-not (Test-Path "dist\windows")) {
+            New-Item -ItemType Directory -Path "dist\windows"
+          }
 
       - name: Print Current Working Directory
         run: |

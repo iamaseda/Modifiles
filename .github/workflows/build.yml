@@ -194,7 +194,7 @@ jobs:
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
           git status
-          git add -f dist
+          git add -f dist/linux/ModifilesLinux
           git commit -m "Commit before rebase"
           git pull --rebase
           git checkout --ours dist/linux/ModifilesLinux

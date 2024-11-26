@@ -110,7 +110,7 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add -f dist/Modifiles.app
+          git add -f macos/Modifiles.app
           git commit -m "Committing macOS executable"
 
       - name: Upload macOS app artifact

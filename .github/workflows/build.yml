@@ -47,13 +47,13 @@ jobs:
           pip install pyinstaller
           pyinstaller --onefile --name Modifiles --distpath dist\windows modifiles.py
           dir dist
-          dir
+          dir dist\windows || echo "Dist/windows does not exist"
 
       - name: Git Add Windows executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist\windows\Modifiles.exe
+          git add -f dist\windows\Modifiles.exe
           git commit -m "Committing windows executable"
 
       - name: Upload Windows executable artifact
@@ -176,7 +176,7 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist/linux/ModifilesLinux
+          git add -f dist/linux/ModifilesLinux
           git commit -m "Committing Linux executable"
 
       - name: Upload Linux artifact
@@ -201,6 +201,4 @@ jobs:
           git config --global user.name "Asomani, Aseda"
           git fetch origin
           git status
-          git add dist/
-          git commit -m "Add Windows, Mac, and Linux executables"
           git push origin main

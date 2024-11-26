@@ -33,7 +33,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Create dist directory if it doesn't exist
-        run: mkdir -p dist
+        run: mkdir -p dist\windows
 
       - name: Print Current Working Directory
         run: pwd
@@ -47,21 +47,21 @@ jobs:
 
       - name: Rename executable to overwrite
         run: |
-          Move-Item dist\Modifiles.exe dist\Modifiles.exe -Force  # Overwrite if it exists
+          Move-Item dist\windows\Modifiles.exe dist\windows\Modifiles.exe -Force  # Overwrite if it exists
           dir dist
 
       - name: Add Windows executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist\Modifiles.exe
+          git add dist\windows\Modifiles.exe
           git commit -m "Committing windows executable"
 
       - name: Upload Windows executable artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Windows
-          path: dist\Modifiles.exe
+          path: dist\windows\Modifiles.exe
 
   build-macos:
     runs-on: macos-latest
@@ -91,7 +91,7 @@ jobs:
 
       - name: Create dist directory if it doesn't exist
         run: |
-          mkdir -p dist
+          mkdir -p dist/macos
           ls
           ls dist
 
@@ -102,15 +102,15 @@ jobs:
         run: |
           pip install --use-pep517 py2app
           rm -rf dist/Modifiles.app
+          rm -rf dist/macos/Modifiles.app
           python setup.py py2app
           ls
           ls dist
       - name: Print Current Working Directory, Dist, and Macos Directories
         run: |
-          pwd
-          ls
-          ls dist
-          ls macos
+          "Current working directory: $(pwd)"
+          echo "Contents of macos (if they exist):"
+          ls dist/macos || echo "Dist/macos does not exist"
 
       - name: Add macOS app
         run: |
@@ -123,7 +123,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-macOS
-          path: dist/Modifiles.app 
+          path: dist/macos/Modifiles.app 
 
   build-linux:
     runs-on: ubuntu-latest
@@ -152,38 +152,39 @@ jobs:
           pip install -r requirements.txt
 
       - name: Create dist directory if it doesn't exist
-        run: mkdir -p dist
+        run: mkdir -p dist/linux
 
       - name: List directory
         run: |
-          ls
           ls dist
 
       - name: Print Current Working Directory
         run: pwd
+
+      - name: Remove Old Linux
+        run: |
+          rm -f dist/linux/ModifilesLinux
 
       - name: Create Linux executable
         run: |
           pip install pyinstaller
           pyinstaller --onefile --name ModifilesLinux modifiles.py
           ls dist
-
-      - name: Rename Linux executable to overwrite
-        run: |
-          mv -f dist/ModifilesLinux dist/ModifilesLinux  # Overwrite if it exists
+          echo "Print dist/linux:"
+          ls dist/linux || echo "Dist/linux does not exist"
 
       - name: Add Linux executable
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add dist/ModifilesLinux
+          git add dist/linux/ModifilesLinux
           git commit -m "Committing Linux executable"
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: Modifiles-Linux
-          path: dist/ModifilesLinux
+          path: dist/linux/ModifilesLinux
 
   commit-all:
     runs-on: ubuntu-latest

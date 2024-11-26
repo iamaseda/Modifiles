@@ -55,6 +55,7 @@ jobs:
           git config --global user.name "Asomani, Aseda"
           git add -f dist\windows\Modifiles.exe
           git commit -m "Committing windows executable"
+          git push origin main
 
       - name: Upload Windows executable artifact
         uses: actions/upload-artifact@v4
@@ -117,6 +118,7 @@ jobs:
           git config --global user.name "Asomani, Aseda"
           git add -f dist/macos/Modifiles.app
           git commit -m "Committing macOS executable"
+          git push origin main
 
       - name: Upload macOS app artifact
         uses: actions/upload-artifact@v4
@@ -178,6 +180,7 @@ jobs:
           git config --global user.name "Asomani, Aseda"
           git add -f dist/linux/ModifilesLinux
           git commit -m "Committing Linux executable"
+          git push origin main
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
@@ -194,11 +197,3 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
-
-      - name: Commit all executables
-        run: |
-          git config --global user.email "bokyere@gmail.com"
-          git config --global user.name "Asomani, Aseda"
-          git fetch origin
-          git status
-          git push origin main

@@ -56,9 +56,11 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
-          git add -f dist\windows\Modifiles.exe
-          git commit -m "Committing windows executable"
           git pull --rebase
+          git checkout --ours dist/windows/Modifiles.exe
+          git add -f dist\windows\Modifiles.exe
+          git rebase --continue
+          git commit -m "Committing windows executable"
           git push origin main
 
       - name: Upload Windows executable artifact
@@ -120,9 +122,11 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
+          git pull --rebase
+          git checkout --ours dist/macos/Modifiles.app
           git add -f dist/macos/Modifiles.app
           git commit -m "Committing macOS executable"
-          git pull --rebase
+          git rebase --continue
           git push origin main
 
       - name: Upload macOS app artifact
@@ -183,9 +187,11 @@ jobs:
         run: |
           git config --global user.email "bokyere@gmail.com"
           git config --global user.name "Asomani, Aseda"
+          git pull --rebase
+          git checkout --ours dist/linux/ModifilesLinux
           git add -f dist/linux/ModifilesLinux
           git commit -m "Committing Linux executable"
-          git pull --rebase
+          git rebase --continue
           git push origin main
 
       - name: Upload Linux artifact
